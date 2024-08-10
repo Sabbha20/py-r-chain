@@ -1,29 +1,5 @@
 import time
 
-def mine_block(last_block, data):
-    """
-    Mines block based on last_block & data
-    Args:
-        last_block (Block): Previous Block
-        data (str): Transactions data
-
-    Returns:
-        Block: returnes a mined block
-    """
-    timestamp = time.time_ns()
-    last_hash = last_block.hash
-    hash = f"{timestamp}-{last_hash}"
-    
-    return Block(timestamp, last_hash, hash, data)
-
-def genesis():
-    """
-    Generate the genesis block
-    Returns:
-        Block: returns genesis block
-    """
-    return Block(1, "genesis_last_hash", "genesis_hash", [])
-
 class Block:
     """_summary_
     Block: a unit of storage
@@ -46,6 +22,33 @@ class Block:
                 ")"
                 )
     
+    @staticmethod
+    def mine_block(last_block, data):
+        """
+        Mines block based on last_block & data
+        Args:
+            last_block (Block): Previous Block
+            data (str): Transactions data
+
+        Returns:
+            Block: returnes a mined block
+        """
+        timestamp = time.time_ns()
+        last_hash = last_block.hash
+        hash = f"{timestamp}-{last_hash}"
+        
+        return Block(timestamp, last_hash, hash, data)
+
+
+    @staticmethod
+    def genesis():
+        """
+        Generate the genesis block
+        Returns:
+            Block: returns genesis block
+        """
+        return Block(1, "genesis_last_hash", "genesis_hash", [])
+    
 def main():
     # block = Block("Hello, World!")
     # print(block)
@@ -55,6 +58,6 @@ def main():
     block = mine_block(genesis_block, "Block1-Data")
     print(block)
 
-main()
+# main()
 if __name__ == "__main__":
     main()

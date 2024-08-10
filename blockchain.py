@@ -1,4 +1,4 @@
-from block import Block, genesis, mine_block
+from block import Block #, genesis, mine_block
 
 class Blockchain:
     """
@@ -6,11 +6,11 @@ class Blockchain:
     Implemented as lists of blocks, datasets of transactions
     """
     def __init__(self):
-        self.chain = [genesis()]
+        self.chain = [Block.genesis()]
     
     def add_block(self, data):
         # self.chain.append(Block(data))
-        self.chain.append(mine_block(self.chain[-1], data))
+        self.chain.append(Block.mine_block(self.chain[-1], data))
         
     def __repr__(self):
         return f"Blockchain({self.chain})"
