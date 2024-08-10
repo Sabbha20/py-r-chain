@@ -1,4 +1,5 @@
 import time
+from crypto_hash import crypto_hash
 
 class Block:
     """_summary_
@@ -22,6 +23,17 @@ class Block:
                 ")"
                 )
     
+    def to_dict(self):
+        """
+        Convert the Block into a dictionary format.
+        """
+        return {
+            'timestamp': self.timestamp,
+            'last_hash': self.last_hash,
+            'hash': self.hash,
+            'data': self.data
+        }
+    
     @staticmethod
     def mine_block(last_block, data):
         """
@@ -35,7 +47,7 @@ class Block:
         """
         timestamp = time.time_ns()
         last_hash = last_block.hash
-        hash = f"{timestamp}-{last_hash}"
+        hash = crypto_hash(last_block.to_dict(), data) #f"{timestamp}-{last_hash}"
         
         return Block(timestamp, last_hash, hash, data)
 
@@ -47,7 +59,7 @@ class Block:
         Returns:
             Block: returns genesis block
         """
-        return Block(1, "genesis_last_hash", "genesis_hash", [])
+        return Block(1, "genesis_last_hash", crypto_hash("genesis_hash"), [])
     
 def main():
     # block = Block("Hello, World!")
