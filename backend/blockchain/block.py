@@ -1,5 +1,5 @@
 import time
-from crypto_hash import crypto_hash
+from backend.util.crypto_hash import crypto_hash
 
 class Block:
     """_summary_
@@ -64,10 +64,10 @@ class Block:
 def main():
     # block = Block("Hello, World!")
     # print(block)
-    print(f"block.py __name__:{__name__}")
+    print(f"block.py __name__:\t{__name__}")
     
-    genesis_block = genesis()
-    block = mine_block(genesis_block, "Block1-Data")
+    genesis_block = Block.genesis()
+    block = Block.mine_block(genesis_block, "Block1-Data")
     print(block)
 
 # main()

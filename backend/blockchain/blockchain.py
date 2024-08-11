@@ -1,4 +1,4 @@
-from block import Block #, genesis, mine_block
+from backend.blockchain.block import Block #, genesis, mine_block
 
 class Blockchain:
     """
