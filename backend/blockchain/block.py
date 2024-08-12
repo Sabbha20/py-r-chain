@@ -65,11 +65,11 @@ class Block:
         last_hash = last_block.hash
         difficulty = last_block.difficulty
         nonce = 0
-        hash = crypto_hash(last_block.to_dict(), data, timestamp) #f"{timestamp}-{last_hash}"
+        hash = crypto_hash(last_block.to_dict(), data, timestamp, difficulty, nonce) #f"{timestamp}-{last_hash}"
         while hash[0:difficulty] != "0" * difficulty:
             nonce += 1
             timestamp = time.time_ns()
-            hash = crypto_hash(last_block.to_dict(), data, timestamp)
+            hash = crypto_hash(last_block.to_dict(), data, timestamp, difficulty, nonce)
         
         return Block(timestamp, last_hash, hash, data, difficulty, nonce)
 
