@@ -5,7 +5,9 @@ GENESIS_DATA = {
     'timestamp': 1,
     'last_hash': "genesis_last_hash",
     'hash': crypto_hash("genesis_hash"),
-    'data': []
+    'data': [], 
+    'difficulty': 3,
+    'nonce': "genesis_nonce"
 }
 
 class Block:
@@ -14,11 +16,13 @@ class Block:
     A single unit that stores transactions in a blockchain that supports cryptocurrencies.
     """
     
-    def __init__(self, timestamp, last_hash, hash, data):
+    def __init__(self, timestamp, last_hash, hash, data, difficulty, nonce):
         self.timestamp = timestamp
         self.last_hash = last_hash
         self.hash = hash
         self.data = data
+        self.difficulty = difficulty
+        self.nonce = nonce
         
     def __repr__(self):
         return (
@@ -27,6 +31,8 @@ class Block:
                 f"last_hash:\t{self.last_hash},\n"
                 f"hash:\t\t{self.hash},\n"
                 f"data:\t\t{self.data}.\n"
+                f"difficulty:\t{self.difficulty}.\n"
+                f"nonce:\t\t{self.nonce}.\n"
                 ")"
                 )
     
@@ -38,7 +44,9 @@ class Block:
             'timestamp': self.timestamp,
             'last_hash': self.last_hash,
             'hash': self.hash,
-            'data': self.data
+            'data': self.data,
+            'difficulty': self.difficulty,
+            'nonce': self.nonce
         }
     
     @staticmethod
@@ -50,13 +58,20 @@ class Block:
             data (str): Transactions data
 
         Returns:
-            Block: returnes a mined block
+            Block: returnes a mined block, until a block hash is found that 
+            meets the leading 0's proof of work requirement.
         """
         timestamp = time.time_ns()
         last_hash = last_block.hash
-        hash = crypto_hash(last_block.to_dict(), data) #f"{timestamp}-{last_hash}"
+        difficulty = last_block.difficulty
+        nonce = 0
+        hash = crypto_hash(last_block.to_dict(), data, timestamp) #f"{timestamp}-{last_hash}"
+        while hash[0:difficulty] != "0" * difficulty:
+            nonce += 1
+            timestamp = time.time_ns()
+            hash = crypto_hash(last_block.to_dict(), data, timestamp)
         
-        return Block(timestamp, last_hash, hash, data)
+        return Block(timestamp, last_hash, hash, data, difficulty, nonce)
 
 
     @staticmethod
