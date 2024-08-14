@@ -18,6 +18,7 @@ def average_block_rate(block_chain: Blockchain, no_of_executions: int):
         
         print("="*50+"\n")
         print(f"Block Difficulty Level:\t\t{block_chain.chain[-1].difficulty}")
+        print(f"Block Data Value:\t\t{block_chain.chain[-1].data}")
         print(f"Block Nonce Value:\t\t{block_chain.chain[-1].nonce}")
         print(f"Time to mine new block:\t\t{time_to_mine:.6f} sec")
         print(f"Average time to add block:\t{avg_time:.6f} sec\n")
